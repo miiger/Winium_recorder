@@ -1,95 +1,158 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.IO;
+using Hooks;
+using GetID;
+using GetName;
 
 namespace GetID_Project
 {
 	public partial class Menu : Form
 	{
 
-		private Radiobutton_State Parametr_State; 
-		private bool Menu_Pressed = false;
-        private int Start_LocationX;
-        private int Start_LocationY;
-		private int Previous_LocationX;
-		private int Previous_LocationY;
-		private string parametr;
-
-		public bool Is_Menu_Pressed()
-		{
-            return Menu_Pressed;
-		}
-
-        public void Set_Menu_Pressed_False()
-        {
-            this.Menu_Pressed = false;
-        }
+		private static string Path = @"C:\\Test.txt";
+		bool Drag_N_Drop = false;
+		private int _current_Down_LocationX;
+		private int _current_Down_LocationY;
+		private int _current_Up_LocationX;
+		private int _current_Up_LocationY;
+		private bool _isStopPressed = false;
+		private int _previous_Up_LocationX;
+		private int _previous_Up_LocationY;
+		private string _object = "";
+		private bool _isObject = false;
+		
 
         public Menu()
 		{
 			InitializeComponent();
+			TopMost = true;
+			this.FormClosed += new FormClosedEventHandler(Recorder_FormClosed);
+			MouseHook.MouseDown += new MouseEventHandler(MouseHook_MouseDown);
+			MouseHook.MouseMove += new MouseEventHandler(MouseHook_MouseMove);
+			MouseHook.MouseUp += new MouseEventHandler(MouseHook_MouseUp);
+			MouseHook.LocalHook = false;
+			MouseHook.InstallHook();
 		}
 
-        public Menu(int x, int y, int Prev_X, int Prev_Y, Radiobutton_State State)
-               : this()
-        {
-            // here store the value for x & y into instance variables
-            TopMost = true;
-            this.Start_LocationX = x;
-            this.Start_LocationY = y;
-			this.Parametr_State = State;
-			this.Previous_LocationX = Prev_X;
-			this.Previous_LocationY = Prev_Y;
-            Load += new EventHandler(Menu_Load);
+		void MouseHook_MouseMove(object sender, MouseEventArgs e)
+		{
+			//listBox1.Items.Add(e.Location);
+			//listBox1.SelectedIndex = listBox1.Items.Count - 1;
 
-			if (Recorder.Get_Paremetr != "")
+			//TODO
+
+			toolTip1.Show(Convert.ToString(e.Location), panel1, e.Location.X, e.Location.Y, 5000);
+		}
+
+		void MouseHook_MouseUp(object sender, MouseEventArgs e)
+		{
+			_previous_Up_LocationX = _current_Up_LocationX;
+			_previous_Up_LocationY = _current_Up_LocationY;
+			_current_Up_LocationX = e.Location.X;
+			_current_Up_LocationY = e.Location.Y;
+
+			if (_current_Up_LocationX != _current_Down_LocationX && _current_Up_LocationY != _current_Down_LocationY)
 			{
-				coordinats_button.Enabled = true;
+				Drag_N_Drop = true;
+			}
+			else
+			{
+				Drag_N_Drop = false;
 			}
 
+			Form Is_Oppened_Menu = Application.OpenForms["Menu"];
 			
 
+			if (e.Button == MouseButtons.Left && !Drag_N_Drop && nameRadiobutton.Checked && !_isStopPressed
+				&& this.Left > e.Location.X || this.Right < e.Location.X
+				&& this.Top > e.Location.Y || this.Bottom < e.Location.Y)
+			{
+				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_name(\"");
+				File.AppendAllText(Recorder.Get_Path, Get_Id.Get_Id_FromCursor());
+				File.AppendAllText(Recorder.Get_Path, "\").click()");
+				File.AppendAllText(Recorder.Get_Path, "\n");
+
+				if (Get_Id.Get_Id_FromCursor() != "")
+				{
+					_object = Get_Id.Get_Id_FromCursor();
+					_isObject = true;
+
+				}
+			}
+
+			if (e.Button == MouseButtons.Left && !Drag_N_Drop && idRadiobutton.Checked && !_isStopPressed
+				&& this.Left > e.Location.X || this.Right < e.Location.X
+				&& this.Top > e.Location.Y || this.Bottom < e.Location.Y)
+			{
+				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_name(\"");
+				File.AppendAllText(Recorder.Get_Path, Get_Name.Get_Name_FromCursor());
+				File.AppendAllText(Recorder.Get_Path, "\").click()");
+				File.AppendAllText(Recorder.Get_Path, "\n");
+
+				if (Get_Id.Get_Id_FromCursor() != "")
+				{
+					_object = Get_Id.Get_Id_FromCursor();
+					_isObject = true;
+				}
+			}
+
+			if (e.Button == MouseButtons.Left && !Drag_N_Drop && coordinatsRadiobutton.Checked && !_isStopPressed
+				&& this.Left > e.Location.X || this.Right < e.Location.X
+				&& this.Top > e.Location.Y || this.Bottom < e.Location.Y && _isObject)
+			{
+				File.AppendAllText(Recorder.Get_Path, "action.move_by_offset(");
+				File.AppendAllText(Recorder.Get_Path, Convert.ToString(_previous_Up_LocationY - _current_Up_LocationY));
+				File.AppendAllText(Recorder.Get_Path, ", ");
+				File.AppendAllText(Recorder.Get_Path, Convert.ToString(_previous_Up_LocationX - _current_Up_LocationX));
+				File.AppendAllText(Recorder.Get_Path, ").click().perform()");
+				File.AppendAllText(Recorder.Get_Path, "\n");
+			}
+
+			if (e.Button == MouseButtons.Right)
+			{
+				File.AppendAllText(Path, "action.context_click().perform()\n");
+			}
+			if (Drag_N_Drop)
+			{
+				//TODOO
+			}
 		}
+
+		void MouseHook_MouseDown(object sender, MouseEventArgs e)
+		{
+			_current_Down_LocationX = e.Location.X;
+			_current_Down_LocationY = e.Location.Y;
+
+		}
+
+		private void Recorder_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			MouseHook.UnInstallHook(); // Обязательно !!!
+		}
+
 
         private void Menu_Load(object sender, EventArgs e)
         {
-            this.SetDesktopLocation(Start_LocationX, Start_LocationY);
+            this.SetDesktopLocation(1400, 70);
         }
-
-        private void coordinats_button_Click(object sender, EventArgs e)
-		{
-			Menu_Pressed = true;
-			File.AppendAllText(Recorder.Get_Path, "action.move_by_offset(");
-			File.AppendAllText(Recorder.Get_Path, Convert.ToString(Previous_LocationY - Start_LocationY));
-			File.AppendAllText(Recorder.Get_Path, ", "); 
-			File.AppendAllText(Recorder.Get_Path, Convert.ToString(Previous_LocationX - Start_LocationX));
-			File.AppendAllText(Recorder.Get_Path, ").click().perform()");
-			File.AppendAllText(Recorder.Get_Path, "\n");
-			this.Close();
-		}
 
 		private void parametr_button_MouseUp(object sender, MouseEventArgs e)
 		{
             
-			if (Parametr_State == Radiobutton_State.Name_Radiobutton_Pressed)
-			{
-				Menu_Pressed = true;
-				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_name(\"");
-				File.AppendAllText(Recorder.Get_Path, Recorder.Get_Paremetr);
-				File.AppendAllText(Recorder.Get_Path, "\").click()");
-				File.AppendAllText(Recorder.Get_Path, "\n");
-				this.Close();
-			}
-
-			if (Parametr_State == Radiobutton_State.Id_Radiobutton_Pressed)
-			{
-				Menu_Pressed = true;
-				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_Id(\"");
-				File.AppendAllText(Recorder.Get_Path, Recorder.Get_Paremetr);
-				File.AppendAllText(Recorder.Get_Path, "\").click()");
-				File.AppendAllText(Recorder.Get_Path, "\n");
-				this.Close();
-			}
 		}
-    }
+
+		private void panel1_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void stopbutton_Click(object sender, EventArgs e)
+		{
+			_isStopPressed= true;
+			this.Hide();
+			
+
+		}
+	}
 }

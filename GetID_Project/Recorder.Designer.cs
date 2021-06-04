@@ -31,11 +31,9 @@
 			this.components = new System.ComponentModel.Container();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.id_radioButton = new System.Windows.Forms.RadioButton();
-			this.name_radioButton = new System.Windows.Forms.RadioButton();
+			this.path_button = new System.Windows.Forms.Button();
 			this.start_button = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.path_button = new System.Windows.Forms.Button();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
@@ -52,8 +50,6 @@
 			// panel1
 			// 
 			this.panel1.Controls.Add(this.path_button);
-			this.panel1.Controls.Add(this.id_radioButton);
-			this.panel1.Controls.Add(this.name_radioButton);
 			this.panel1.Controls.Add(this.start_button);
 			this.panel1.Controls.Add(this.textBox1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -62,27 +58,15 @@
 			this.panel1.Size = new System.Drawing.Size(800, 450);
 			this.panel1.TabIndex = 2;
 			// 
-			// id_radioButton
+			// path_button
 			// 
-			this.id_radioButton.AutoSize = true;
-			this.id_radioButton.Location = new System.Drawing.Point(108, 53);
-			this.id_radioButton.Name = "id_radioButton";
-			this.id_radioButton.Size = new System.Drawing.Size(100, 17);
-			this.id_radioButton.TabIndex = 5;
-			this.id_radioButton.Text = "Параметр \"ID\"";
-			this.id_radioButton.UseVisualStyleBackColor = true;
-			// 
-			// name_radioButton
-			// 
-			this.name_radioButton.AutoSize = true;
-			this.name_radioButton.Checked = true;
-			this.name_radioButton.Location = new System.Drawing.Point(108, 29);
-			this.name_radioButton.Name = "name_radioButton";
-			this.name_radioButton.Size = new System.Drawing.Size(105, 17);
-			this.name_radioButton.TabIndex = 4;
-			this.name_radioButton.TabStop = true;
-			this.name_radioButton.Text = "Парметр \"Имя\"";
-			this.name_radioButton.UseVisualStyleBackColor = true;
+			this.path_button.Location = new System.Drawing.Point(301, 69);
+			this.path_button.Name = "path_button";
+			this.path_button.Size = new System.Drawing.Size(195, 23);
+			this.path_button.TabIndex = 6;
+			this.path_button.Text = "Выбрать путь для скрипта";
+			this.path_button.UseVisualStyleBackColor = true;
+			this.path_button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.path_button_MouseUp);
 			// 
 			// start_button
 			// 
@@ -97,16 +81,6 @@
 			// toolTip1
 			// 
 			this.toolTip1.ShowAlways = true;
-			// 
-			// path_button
-			// 
-			this.path_button.Location = new System.Drawing.Point(301, 29);
-			this.path_button.Name = "path_button";
-			this.path_button.Size = new System.Drawing.Size(195, 23);
-			this.path_button.TabIndex = 6;
-			this.path_button.Text = "Выбрать путь для скрипта";
-			this.path_button.UseVisualStyleBackColor = true;
-			this.path_button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.path_button_MouseUp);
 			// 
 			// openFileDialog1
 			// 
@@ -132,8 +106,6 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Button start_button;
 		private System.Windows.Forms.ToolTip toolTip1;
-		private System.Windows.Forms.RadioButton id_radioButton;
-		private System.Windows.Forms.RadioButton name_radioButton;
 		private System.Windows.Forms.Button path_button;
 		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 	}
