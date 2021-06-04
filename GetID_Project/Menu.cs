@@ -65,32 +65,34 @@ namespace GetID_Project
 			
 
 			if (e.Button == MouseButtons.Left && !Drag_N_Drop && nameRadiobutton.Checked && !_isStopPressed
-				&& this.Left > e.Location.X || this.Right < e.Location.X
-				&& this.Top > e.Location.Y || this.Bottom < e.Location.Y)
+				&& (this.Left > e.Location.X || this.Right < e.Location.X)
+				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y))
 			{
+				string nameObject = Get_Name.Get_Name_FromCursor();
 				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_name(\"");
-				File.AppendAllText(Recorder.Get_Path, Get_Id.Get_Id_FromCursor());
+				File.AppendAllText(Recorder.Get_Path, nameObject);
 				File.AppendAllText(Recorder.Get_Path, "\").click()");
 				File.AppendAllText(Recorder.Get_Path, "\n");
 
-				if (Get_Id.Get_Id_FromCursor() != "")
+				if (nameObject != "")
 				{
-					_object = Get_Id.Get_Id_FromCursor();
+					_object = nameObject;
 					_isObject = true;
 
 				}
 			}
 
 			if (e.Button == MouseButtons.Left && !Drag_N_Drop && idRadiobutton.Checked && !_isStopPressed
-				&& this.Left > e.Location.X || this.Right < e.Location.X
-				&& this.Top > e.Location.Y || this.Bottom < e.Location.Y)
+				&& (this.Left > e.Location.X || this.Right < e.Location.X)
+				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y))
 			{
+				string idObject = Get_Id.Get_Id_FromCursor();
 				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_name(\"");
-				File.AppendAllText(Recorder.Get_Path, Get_Name.Get_Name_FromCursor());
+				File.AppendAllText(Recorder.Get_Path, idObject);
 				File.AppendAllText(Recorder.Get_Path, "\").click()");
 				File.AppendAllText(Recorder.Get_Path, "\n");
 
-				if (Get_Id.Get_Id_FromCursor() != "")
+				if (idObject != "")
 				{
 					_object = Get_Id.Get_Id_FromCursor();
 					_isObject = true;
@@ -98,8 +100,8 @@ namespace GetID_Project
 			}
 
 			if (e.Button == MouseButtons.Left && !Drag_N_Drop && coordinatsRadiobutton.Checked && !_isStopPressed
-				&& this.Left > e.Location.X || this.Right < e.Location.X
-				&& this.Top > e.Location.Y || this.Bottom < e.Location.Y && _isObject)
+				&& (this.Left > e.Location.X || this.Right < e.Location.X)
+				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y && _isObject))
 			{
 				File.AppendAllText(Recorder.Get_Path, "action.move_by_offset(");
 				File.AppendAllText(Recorder.Get_Path, Convert.ToString(_previous_Up_LocationY - _current_Up_LocationY));
