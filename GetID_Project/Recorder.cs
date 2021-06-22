@@ -41,6 +41,7 @@ namespace GetID_Project
 			//TODO
 		}
 
+		//calling the recording window
 		private void button1_Click(object sender, EventArgs e)
 		{
 			Menu menu = new Menu();
@@ -48,6 +49,7 @@ namespace GetID_Project
 			menu.Show();
 		}
 
+		//recording the save path
 		private void path_button_MouseUp(object sender, MouseEventArgs e)
 		{
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)

@@ -52,6 +52,7 @@ namespace GetID_Project
 			_current_Up_LocationX = e.Location.X;
 			_current_Up_LocationY = e.Location.Y;
 
+			//drag & drop condition
 			if (_current_Up_LocationX != _current_Down_LocationX && _current_Up_LocationY != _current_Down_LocationY)
 			{
 				Drag_N_Drop = true;
@@ -61,12 +62,10 @@ namespace GetID_Project
 				Drag_N_Drop = false;
 			}
 
-			Form Is_Oppened_Menu = Application.OpenForms["Menu"];
-			
-
+			//processing the left mouse button ckick with name 
 			if (e.Button == MouseButtons.Left && !Drag_N_Drop && nameRadiobutton.Checked && !_isStopPressed
-				&& (this.Left > e.Location.X || this.Right < e.Location.X)
-				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y))
+				&& (this.Left > e.Location.X || this.Right < e.Location.X)   //processing the recording window
+				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y))  //processing the recording window
 			{
 				string nameObject = Get_Name.Get_Name_FromCursor();
 				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_name(\"");
@@ -82,9 +81,10 @@ namespace GetID_Project
 				}
 			}
 
+			//processing the left mouse button ckick with ID
 			if (e.Button == MouseButtons.Left && !Drag_N_Drop && idRadiobutton.Checked && !_isStopPressed
-				&& (this.Left > e.Location.X || this.Right < e.Location.X)
-				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y))
+				&& (this.Left > e.Location.X || this.Right < e.Location.X)   //processing the recording window
+				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y))  //processing the recording window
 			{
 				string idObject = Get_Id.Get_Id_FromCursor();
 				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_name(\"");
@@ -99,6 +99,7 @@ namespace GetID_Project
 				}
 			}
 
+			//processing the right mouse button ckick with coordinats
 			if (e.Button == MouseButtons.Left && !Drag_N_Drop && coordinatsRadiobutton.Checked && !_isStopPressed
 				&& (this.Left > e.Location.X || this.Right < e.Location.X)
 				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y && _isObject))
@@ -111,6 +112,7 @@ namespace GetID_Project
 				File.AppendAllText(Recorder.Get_Path, "\n");
 			}
 
+			//processing the right button click
 			if (e.Button == MouseButtons.Right)
 			{
 				File.AppendAllText(Path, "action.context_click().perform()\n");
@@ -121,6 +123,7 @@ namespace GetID_Project
 			}
 		}
 
+		//processing the down mouse click (left/right)
 		void MouseHook_MouseDown(object sender, MouseEventArgs e)
 		{
 			_current_Down_LocationX = e.Location.X;
@@ -130,7 +133,7 @@ namespace GetID_Project
 
 		private void Recorder_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			MouseHook.UnInstallHook(); // Обязательно !!!
+			MouseHook.UnInstallHook(); // necessary !!!
 		}
 
 
