@@ -4,6 +4,7 @@ using System.IO;
 using Hooks;
 using GetID;
 using GetName;
+using GetRectangle;
 
 namespace GetID_Project
 {
@@ -39,6 +40,8 @@ namespace GetID_Project
 		{
 			//listBox1.Items.Add(e.Location);
 			//listBox1.SelectedIndex = listBox1.Items.Count - 1;
+
+			string test = Get_Rectangle.Get_Rectangle_FromCursor();
 
 			//TODO
 

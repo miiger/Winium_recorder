@@ -50,6 +50,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Get_Rectangle.cs" />
     <Compile Include="Get_Name.cs" />
     <Compile Include="Get_Id.cs" />
     <Compile Include="Hook.cs" />
