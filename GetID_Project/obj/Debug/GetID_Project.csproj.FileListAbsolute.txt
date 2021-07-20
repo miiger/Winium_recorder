@@ -8,4 +8,3 @@ D:\WinFormsProject\GetID_Project\GetID_Project\obj\Debug\GetID_Project.exe
 D:\WinFormsProject\GetID_Project\GetID_Project\obj\Debug\GetID_Project.pdb
 D:\WinFormsProject\GetID_Project\GetID_Project\obj\Debug\GetID_Project.Menu.resources
 D:\WinFormsProject\GetID_Project\GetID_Project\obj\Debug\GetID_Project.Recorder.resources
-D:\WinFormsProject\GetID_Project\GetID_Project\obj\Debug\GetID_Project.csprojAssemblyReference.cache

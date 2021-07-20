@@ -5,6 +5,8 @@ using Hooks;
 using GetID;
 using GetName;
 using GetRectangle;
+using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace GetID_Project
 {
@@ -22,9 +24,13 @@ namespace GetID_Project
 		private int _previous_Up_LocationY;
 		private string _object = "";
 		private bool _isObject = false;
-		
+		[DllImport("User32.dll")]
+		public static extern IntPtr GetDC(IntPtr hwnd);
+		[DllImport("User32.dll")]
+		public static extern void ReleaseDC(IntPtr hwnd, IntPtr dc);
 
-        public Menu()
+
+		public Menu()
 		{
 			InitializeComponent();
 			TopMost = true;
@@ -41,7 +47,17 @@ namespace GetID_Project
 			//listBox1.Items.Add(e.Location);
 			//listBox1.SelectedIndex = listBox1.Items.Count - 1;
 
-			string test = Get_Rectangle.Get_Rectangle_FromCursor();
+			//IntPtr desktopPtr = GetDC(IntPtr.Zero);
+			//Graphics g = Graphics.FromHdc(desktopPtr);
+
+			//SolidBrush b = new SolidBrush(Color.White);
+			//Rectangle test = new Rectangle((int)Get_Rectangle.Get_Rectangle_FromCursor().X, (int)Get_Rectangle.Get_Rectangle_FromCursor().Y,
+			//	(int)Get_Rectangle.Get_Rectangle_FromCursor().Width + (int)Get_Rectangle.Get_Rectangle_FromCursor().X, 
+			//	(int)Get_Rectangle.Get_Rectangle_FromCursor().Height + (int)Get_Rectangle.Get_Rectangle_FromCursor().Y);
+			//g.FillRectangle(b, test);
+
+			//g.Dispose();
+			//ReleaseDC(IntPtr.Zero, desktopPtr);
 
 			//TODO
 
@@ -70,6 +86,7 @@ namespace GetID_Project
 				&& (this.Left > e.Location.X || this.Right < e.Location.X)   //processing the recording window
 				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y))  //processing the recording window
 			{
+				
 				string nameObject = Get_Name.Get_Name_FromCursor();
 				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_name(\"");
 				File.AppendAllText(Recorder.Get_Path, nameObject);
@@ -90,7 +107,7 @@ namespace GetID_Project
 				&& (this.Top > e.Location.Y || this.Bottom < e.Location.Y))  //processing the recording window
 			{
 				string idObject = Get_Id.Get_Id_FromCursor();
-				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_name(\"");
+				File.AppendAllText(Recorder.Get_Path, "driver.find_element_by_id(\"");
 				File.AppendAllText(Recorder.Get_Path, idObject);
 				File.AppendAllText(Recorder.Get_Path, "\").click()");
 				File.AppendAllText(Recorder.Get_Path, "\n");

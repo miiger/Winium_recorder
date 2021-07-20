@@ -7,9 +7,9 @@ namespace GetRectangle
 {
 	class Get_Rectangle
 	{
-		public static string Get_Rectangle_FromCursor()
+		public static System.Windows.Rect Get_Rectangle_FromCursor()
 		{
-			string AutoRectangle_String = "";
+			string AutoRectangle_String = "";// TODO
 			// Convert mouse position from System.Drawing.Point to System.Windows.Point.
 			Point position = Control.MousePosition;
 			System.Windows.Point point = new System.Windows.Point(position.X, position.Y);
@@ -21,9 +21,10 @@ namespace GetRectangle
 			}
 			else
 			{
-				AutoRectangle_String = Auto_Rectangle_NoDefault as string;
+				//TODO
 			}
-			return AutoRectangle_String;
+			
+			return (System.Windows.Rect)Auto_Rectangle_NoDefault;
 		}
 	}
 }
